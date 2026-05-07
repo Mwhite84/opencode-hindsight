@@ -36,6 +36,10 @@ cp -rf source dest          # NOT: cp -r source dest
 - `apt-get` - use `-y` flag
 - `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
 
+## Beads Pitfalls
+
+- `bd dolt remote add` can successfully add the remote but exceed a 120s shell timeout while trying to commit/export config. If that happens, verify with `bd dolt remote list` and `bd dolt show`, then inspect `.beads/config.yaml` instead of rerunning blindly.
+
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker
 
