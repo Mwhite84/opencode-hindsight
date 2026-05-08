@@ -39,6 +39,7 @@ cp -rf source dest          # NOT: cp -r source dest
 ## Beads Pitfalls
 
 - `bd dolt remote add` can successfully add the remote but exceed a 120s shell timeout while trying to commit/export config. If that happens, verify with `bd dolt remote list` and `bd dolt show`, then inspect `.beads/config.yaml` instead of rerunning blindly.
+- For fresh git clones or worktrees, run `bd bootstrap --yes` instead of `bd init`. `bd init` can create an empty embedded Dolt database with a history unrelated to the remote, causing `bd dolt pull` to fail with `no common ancestor`; preserve or remove `.beads/embeddeddolt/<database>` before bootstrapping if that happens.
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker

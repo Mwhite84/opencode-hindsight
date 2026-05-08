@@ -67,6 +67,14 @@ The important idea is not the final JSON shape, but the capability: memory can b
 
 This repository is in the earliest planning and scaffolding stage. The README is intentionally provisional and will be updated as the plugin architecture, configuration format, and implementation details become clearer.
 
+## Issue Tracking
+
+This project uses `bd` for issue tracking. After cloning the repository or creating a new worktree, run this from the worktree root:
+
+```bash
+bd bootstrap
+```
+
 ## Inspiration
 
 This project will use the official Hindsight opencode plugin as a reference point for the initial integration pattern, while extending the configuration model to support richer per-agent and multi-bank workflows.
