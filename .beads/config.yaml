@@ -54,3 +54,5 @@
 # - github.repo
 
 sync.remote: "git@github.com:Toady00/opencode-hindsight.git"
+
+export.auto: false
