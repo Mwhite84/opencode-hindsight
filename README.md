@@ -5,6 +5,9 @@ memory system. The plugin gives each opencode agent its own configurable memory
 behavior, including separate banks for automatic retention, automatic recall,
 and manual tool usage.
 
+> **Status:** `0.0.1` is the first alpha iteration. Expect rough edges and test
+> with non-critical memory banks before relying on it for important workflows.
+
 ## Features
 
 - Per-agent Hindsight configuration via `agent.<name>.options.hindsight`.
@@ -32,7 +35,8 @@ and manual tool usage.
 
 ## Installation
 
-Install the plugin package in the environment where opencode loads plugins:
+After the package is published to npm, install it in the environment where
+opencode loads plugins:
 
 ```bash
 bun add @toady00/opencode-hindsight
@@ -46,6 +50,10 @@ bun run build
 ```
 
 Then reference the package from your opencode configuration.
+
+If you are testing from a local checkout before publishing, build the package
+first and use your package manager's local-link workflow from the opencode
+configuration environment.
 
 ## Basic opencode Configuration
 
@@ -83,6 +91,33 @@ export HINDSIGHT_DEBUG="true"
 ```
 
 Environment variables are used when the equivalent plugin options are omitted.
+
+## Quick Start
+
+For a single shared project memory bank, this is the smallest useful setup:
+
+```jsonc
+{
+  "plugin": [
+    [
+      "@toady00/opencode-hindsight",
+      {
+        "hindsightApiUrl": "http://localhost:8888",
+        "defaults": {
+          "autoRetainBank": "project",
+          "retainBanks": ["project"],
+          "autoRecallBanks": ["project"],
+          "recallBanks": ["project"]
+        }
+      }
+    ]
+  ]
+}
+```
+
+With this configuration, root sessions automatically recall from `project` at
+startup, retain transcripts to `project` as the session goes idle, and expose
+manual retain/recall/reflect tools for configured agents.
 
 ## Plugin Options
 

@@ -1,7 +1,7 @@
 {
   "name": "@toady00/opencode-hindsight",
-  "version": "0.0.0",
-  "description": "Hindsight memory plugin for opencode",
+  "version": "0.0.1",
+  "description": "Per-agent Hindsight memory plugin for opencode",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -17,6 +17,28 @@
     "README.md",
     "LICENSE"
   ],
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "hindsight",
+    "memory",
+    "ai-agent",
+    "agent-memory",
+    "vectorize"
+  ],
+  "author": "Brandon Dennis",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Toady00/opencode-hindsight.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Toady00/opencode-hindsight/issues"
+  },
+  "homepage": "https://github.com/Toady00/opencode-hindsight#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
