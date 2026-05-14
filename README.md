@@ -232,7 +232,8 @@ injected.
 ## Automatic Retention
 
 Automatic retention runs on `session.status` events where
-`status.type === "idle"`. The deprecated `session.idle` event is not used.
+`status.type === "idle"`. The plugin also accepts the deprecated `session.idle`
+event for compatibility with older event producers.
 
 Auto-retain only runs for root sessions. Child sessions are skipped for
 automatic retention.

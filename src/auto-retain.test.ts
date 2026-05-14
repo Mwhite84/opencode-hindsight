@@ -55,9 +55,18 @@ function idleEvent(sessionID: string) {
     event: {
       type: "session.status",
       properties: {
+        sessionID,
         status: { type: "idle" },
-        info: { id: sessionID },
       },
+    },
+  };
+}
+
+function deprecatedIdleEvent(sessionID: string) {
+  return {
+    event: {
+      type: "session.idle",
+      properties: { sessionID },
     },
   };
 }
@@ -120,6 +129,17 @@ describe("auto-retain", () => {
       },
     ]);
     expect(getLastRetainedTurn("session-1")).toBe(1);
+  });
+
+  it("accepts deprecated session.idle events for compatibility", async () => {
+    setSessionMeta("session-1", { agent: "build", isChild: false });
+    setAgentConfig("build", config({ retainEveryNTurns: 1 }));
+    const { client, calls } = hindsightClient();
+    const openCode = messagesClient([message("user", "hi"), message("assistant", "hello")]);
+
+    await handleAutoRetainEvent(deprecatedIdleEvent("session-1"), openCode, client);
+
+    expect(calls).toEqual([{ bankId: "auto-bank", content: "User: hi\n\nAssistant: hello", documentId: "session-1" }]);
   });
 
   it("last-turn mode retains only the recent window with a unique document ID", async () => {

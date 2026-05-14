@@ -146,18 +146,23 @@ function formatError(error: unknown): string {
 }
 
 function getIdleSessionID(event: unknown): string | undefined {
-  if (!isRecord(event) || event.type !== "session.status") return undefined;
+  if (!isRecord(event)) return undefined;
 
   const properties = event.properties;
   if (!isRecord(properties)) return undefined;
 
-  const status = properties.status;
-  if (!isRecord(status) || status.type !== "idle") return undefined;
+  if (event.type === "session.status") {
+    const status = properties.status;
+    if (!isRecord(status) || status.type !== "idle") return undefined;
 
-  const info = properties.info;
-  if (!isRecord(info) || typeof info.id !== "string") return undefined;
+    return typeof properties.sessionID === "string" ? properties.sessionID : undefined;
+  }
 
-  return info.id;
+  if (event.type === "session.idle") {
+    return typeof properties.sessionID === "string" ? properties.sessionID : undefined;
+  }
+
+  return undefined;
 }
 
 function getRole(message: TranscriptMessage): string | undefined {
