@@ -263,4 +263,45 @@ describe("auto-retain", () => {
 
     expect(calls).toEqual([{ bankId: "auto-bank", content: "User: hi\n\nAssistant: hello", documentId: "preexisting" }]);
   });
+
+  it("auto-retains old sessions fetched without agent metadata when defaults are configured", async () => {
+    initState({
+      applyMode: "opt-in",
+      defaults: {
+        autoRetainBank: "stacked-chips-infrastructure",
+        retainBanks: ["stacked-chips-infrastructure"],
+        autoRecallBanks: ["stacked-chips-infrastructure"],
+        recallBanks: ["stacked-chips-infrastructure"],
+      },
+      logger: { warn: () => {} },
+    });
+    await createStateConfigHook()({ agent: { build: {}, plan: {} } });
+    const { client, calls } = hindsightClient();
+    const openCode = {
+      session: {
+        get: () => Promise.resolve({ data: { id: "old-session", parentID: undefined } }),
+        messages: () =>
+          Promise.resolve({
+            data: [
+              message("user", "one"),
+              message("assistant", "done"),
+              message("user", "two"),
+              message("assistant", "done"),
+              message("user", "three"),
+              message("assistant", "done"),
+            ],
+          }),
+      },
+    } satisfies OpenCodeMessagesClientLike;
+
+    await handleAutoRetainEvent(idleEvent("old-session"), openCode, client);
+
+    expect(calls).toEqual([
+      {
+        bankId: "stacked-chips-infrastructure",
+        content: "User: one\n\nAssistant: done\n\nUser: two\n\nAssistant: done\n\nUser: three\n\nAssistant: done",
+        documentId: "old-session",
+      },
+    ]);
+  });
 });
