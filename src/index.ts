@@ -119,7 +119,9 @@ export const server: Plugin = async (_input: PluginInput, options?: PluginOption
   return createStubHooks(_input, client, logger);
 };
 
-const pluginModule: PluginModule = { server };
+export const id = "@toady00/opencode-hindsight";
+
+const pluginModule: PluginModule & { id: string } = { id, server };
 
 export default pluginModule;
 export {

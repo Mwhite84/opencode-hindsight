@@ -58,6 +58,7 @@ describe("hindsight client wrapper", () => {
         options: {
           documentId: "session-1",
           metadata: { agent: "build" },
+          async: true,
           updateMode: "replace",
         },
       },

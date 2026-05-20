@@ -33,7 +33,12 @@ export interface HindsightSdkClient {
   retain(
     bankId: string,
     content: string,
-    options?: { documentId?: string; metadata?: Record<string, string>; updateMode?: "replace" | "append" }
+    options?: {
+      documentId?: string;
+      metadata?: Record<string, string>;
+      updateMode?: "replace" | "append";
+      async?: boolean;
+    }
   ): Promise<unknown>;
   recall(bankId: string, query: string): Promise<RecallResponse>;
   reflect(bankId: string, query: string, options?: { context?: string }): Promise<ReflectResponse>;
@@ -66,6 +71,7 @@ class SafeHindsightClientWrapper implements HindsightClientWrapper {
       await this.client.retain(options.bankId, options.content, {
         documentId: options.documentId,
         metadata: options.metadata,
+        async: true,
         updateMode: "replace",
       });
 
